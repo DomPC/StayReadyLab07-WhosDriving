@@ -5,11 +5,13 @@ import Driving.Car;
 public class HondaCivic extends Car {
     private double distanceTraveled;
     private double topSpeed;
+    private double milesAfterOilChange;
 
     //Constructor
     public HondaCivic(){
         topSpeed = 70.0;
         distanceTraveled = 0.0;
+        milesAfterOilChange = 0.0;
     }
     /**
      * A civic should need an oil change every
@@ -21,8 +23,7 @@ public class HondaCivic extends Car {
      */
     @Override
     public Boolean needsOilChange() {
-        if(getDistanceTraveled() >= 50000.0){
-            changeOil();
+        if(milesAfterOilChange == 50000.0){
             return true;
         }
         return false;
@@ -37,8 +38,8 @@ public class HondaCivic extends Car {
      */
     @Override
     public void changeOil() {
+        milesAfterOilChange = 0.0;
         System.out.println("50,000 miles may be traveled before another oil change is needed");
-
     }
 
     /**
@@ -50,7 +51,6 @@ public class HondaCivic extends Car {
      */
     @Override
     public Boolean checkEngineLight() {
-
         if(needsOilChange()){
             return true;
         }
@@ -67,8 +67,6 @@ public class HondaCivic extends Car {
      */
     @Override
     public Double getDistanceTraveled() {
-
-
         return distanceTraveled;
     }
 
@@ -78,7 +76,6 @@ public class HondaCivic extends Car {
      */
     @Override
     public Double getTopSpeed() {
-
         return topSpeed;
     }
 
@@ -92,8 +89,9 @@ public class HondaCivic extends Car {
      */
     @Override
     public Integer transport(Double distance) {
-
-        double result = distance / getTopSpeed()* 60 * 60;
+        distanceTraveled += distance;
+        milesAfterOilChange += distance;
+        double result = Math.round(distance / (getTopSpeed()/ 3600));
 
         return (int)result;
     }
